@@ -33,7 +33,7 @@ class RemoteLock
       success = @adapter.store(key_for(key), options[:expiry])
       return if success
       break if attempt == options[:retries]
-      Kernel.sleep((increase_wait ? (2 ** (attempt + rand - 1)) : 1) * options[:initial_wait])
+      Kernel.sleep((options[:increase_wait] ? (2 ** (attempt + rand - 1)) : 1) * options[:initial_wait])
     end
     raise RemoteLock::Error, "Couldn't acquire lock for: #{key}"
   end
